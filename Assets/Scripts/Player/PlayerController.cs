@@ -7,6 +7,8 @@ namespace Characters.Player
     {
         [SerializeField] private PlayerMoveSystem moveSystem;
         [SerializeField] private PlayerInputSystem inputSystem;
+        [SerializeField]private Camera miniMapCamera;
+        public Camera MiniMapCamera =>miniMapCamera;
 
         private void Update()
         {
