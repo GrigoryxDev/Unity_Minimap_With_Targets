@@ -8,9 +8,9 @@ namespace Scripts.MiniMap
 {
     public class MiniMapController : MonoBehaviour
     {
+        [SerializeField] private float circleOffset;
         private Camera mapCamera;
         private Transform player;
-        [SerializeField] private float circleOffset;
         private RectTransform rectTransform;
         private RectTransform Rect => rectTransform ?? (rectTransform = GetComponent<RectTransform>());
         private static List<MiniMapIcon> miniMapIcons = new List<MiniMapIcon>();
@@ -59,7 +59,7 @@ namespace Scripts.MiniMap
             {
                 if (minimapIcon.IsShowDistance)
                 {
-                    var distance = (int)Vector3.Distance(player.transform.position, minimapIcon.Owner.transform.position);
+                    var distance = (int)Vector3.Distance(player.position, minimapIcon.Owner.transform.position);
                     minimapIcon.SetText(distance.ToString());
                 }
 

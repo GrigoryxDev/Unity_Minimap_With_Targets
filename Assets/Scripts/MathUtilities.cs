@@ -7,8 +7,8 @@ public static class MathUtilities
     public static Vector3 RandomPointInAnnulus(Vector3 origin, float minRadius, float maxRadius)
     {
 
-        Vector3 randomDirection = (Random.insideUnitCircle * origin).normalized;
-
+        var randomInCircle = Random.insideUnitCircle.normalized;
+        Vector3 randomDirection = new Vector3(randomInCircle.x, 0, randomInCircle.y);
         var randomDistance = Random.Range(minRadius, maxRadius);
 
         Vector3 point = origin + randomDirection * randomDistance;

@@ -18,7 +18,7 @@ namespace Scripts.UI
         public GameSceneUI GameSceneUI => gameSceneUI;
         private void Start()
         {
-            GameSceneUI.MapController.Init(player.transform, player.MiniMapCamera);
+            GameSceneUI.Init(player.transform, player.MiniMapCamera);
             GameSceneUI.ShowActiveTex(false);
             ChangeObjectPosition();
         }
