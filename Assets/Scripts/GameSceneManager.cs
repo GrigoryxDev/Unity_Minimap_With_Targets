@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Characters.Player;
-using Scripts.MiniMap;
+using Scripts.MapSystem;
 using UnityEngine;
 
 namespace Scripts.UI
@@ -11,21 +11,27 @@ namespace Scripts.UI
         [SerializeField] private PlayerController player;
         [SerializeField] private GameSceneUI gameSceneUI;
         [SerializeField] private Terrain terrain;
-        [SerializeField] private Transform targetTransform;
         [SerializeField, Range(10, 100)] private float randomCircleMinRadius;
         [SerializeField, Range(10, 100)] private float randomCircleMaxRadius;
+        [SerializeField, Space] private int maxTargets;
+        [SerializeField] private GameObject targetPrefab;
 
         public GameSceneUI GameSceneUI => gameSceneUI;
+        public PlayerController Player => player;
+
         private void Start()
         {
             GameSceneUI.Init(player.transform, player.MiniMapCamera);
-            GameSceneUI.ShowActiveTex(false);
-            ChangeObjectPosition();
+            var rndTargets = Random.Range(0,maxTargets+1);
+            for (int i = 0; i < rndTargets; i++)
+            {
+                var target = Instantiate(targetPrefab);
+                target.GetComponent<MarkedObject>().Init();
+            }
         }
 
-        public void ChangeObjectPosition()
+        public void ChangeObjectPosition(Transform targetTransform)
         {
-            // var randomPosition = (Vector3)Random.insideUnitCircle * randomCircleRadius;
             Vector3 randomPosition = MathUtilities.RandomPointInAnnulus(player.transform.position, randomCircleMinRadius, randomCircleMaxRadius);
             Debug.Log(randomPosition);
             var minterrainX = terrain.terrainData.bounds.min.x + 50;

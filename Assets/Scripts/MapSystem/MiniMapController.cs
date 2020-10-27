@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Scripts.MiniMap
+namespace Scripts.MapSystem
 {
     public class MiniMapController : MonoBehaviour
     {
@@ -29,19 +29,17 @@ namespace Scripts.MiniMap
             {
                 DrawIcons();
             }
-
         }
 
-        public void AddObject(MiniMapObject miniMapObject)
+        public void AddObject(MarkedObject miniMapObject)
         {
-            var minimapGObject = Instantiate(miniMapObject.UiPrefab, transform);
+            var minimapGObject = Instantiate(miniMapObject.MMapData.uiPrefab, transform);
             var miniMapIcon = minimapGObject.GetComponent<MiniMapIcon>();
             miniMapIcon.Owner = miniMapObject;
-            miniMapIcon.SetIcon(miniMapObject.IconSprite, miniMapObject.Color);
-            miniMapIcon.ShowDistanceText(miniMapObject.ShowDistance);
+            miniMapIcon.SetIcon(miniMapObject.MMapData.iconSprite, miniMapObject.MMapData.iconColor);
+            miniMapIcon.ShowDistanceText(miniMapObject.MMapData.showDistance);
 
             miniMapIcons.Add(miniMapIcon);
-
         }
 
         public void RemoveObject(MiniMapIcon miniMapObject)
@@ -50,7 +48,6 @@ namespace Scripts.MiniMap
             var objct = miniMapIcons[objectIndex];
             miniMapIcons.Remove(objct);
             Destroy(objct.gameObject);
-
         }
 
         private void DrawIcons()

@@ -4,13 +4,13 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Scripts.MiniMap
+namespace Scripts.MapSystem
 {
     public class MiniMapIcon : MonoBehaviour
     {
         [SerializeField] private Image image;
         [SerializeField] private TextMeshProUGUI textDistance;
-        public MiniMapObject Owner { get; set; }
+        public MarkedObject Owner { get; set; }
         public bool IsShowDistance { get; private set; }
 
         public void ShowDistanceText(bool hide)
