@@ -26,8 +26,9 @@ namespace Scripts.UI
 
         private void Start()
         {
-             Spawn();
             GameSceneUI.Init(player.transform, player.MiniMapCamera,Spawn);
+
+            Spawn();
            
         }
 

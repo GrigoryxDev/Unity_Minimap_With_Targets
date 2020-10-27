@@ -34,9 +34,25 @@ public static class MathUtilities
     {
         var corners = new Vector3[4];
         rectangleRect.GetWorldCorners(corners);
+        Rect RectScreenSpace = RectTransformToScreenSpace(rectangleRect);
 
-        position.x = Mathf.Clamp(position.x * rectangleRect.rect.width + corners[0].x, corners[0].x, corners[2].x);
-        position.y = Mathf.Clamp(position.y * rectangleRect.rect.height + corners[0].y, corners[0].y, corners[1].y);
+        position.x = position.x * RectScreenSpace.width + corners[0].x;
+
+        position.y = position.y * RectScreenSpace.height + corners[0].y;
+
     }
+
+    public static Rect RectTransformToScreenSpace(RectTransform transform)
+    {
+
+        Vector2 size = Vector2.Scale(transform.rect.size, transform.lossyScale);
+
+        float x = transform.position.x + transform.anchoredPosition.x;
+
+        float y = Screen.height - transform.position.y - transform.anchoredPosition.y;
+
+        return new Rect(x, y, size.x, size.y);
+    }
+
 
 }

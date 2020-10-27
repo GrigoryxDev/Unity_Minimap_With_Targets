@@ -75,7 +75,6 @@ namespace Scripts.MapSystem
                     minimapIcon.Value.SetText(distance.ToString());
                 }
 
-
                 var screenPos = (Vector2)mapCamera.WorldToViewportPoint(icon.Owner.transform.position);
 
                 MathUtilities.ClampPositionToRectRectangle(Rect, ref screenPos);
