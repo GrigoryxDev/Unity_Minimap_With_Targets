@@ -3,31 +3,39 @@ using System.Collections.Generic;
 using Characters.Player;
 using Scripts.MapSystem;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace Scripts.UI
 {
-    public class GameSceneManager : Singleton<GameSceneManager>
+    public class GameSceneManager : Singleton<GameSceneManager>, ISpawner
     {
+        [SerializeField] AdressableInstantiate adressableInstantiate;
         [SerializeField] private PlayerController player;
         [SerializeField] private GameSceneUI gameSceneUI;
         [SerializeField] private Terrain terrain;
         [SerializeField, Range(10, 100)] private float randomCircleMinRadius;
         [SerializeField, Range(10, 100)] private float randomCircleMaxRadius;
         [SerializeField, Space] private int maxTargets;
-        [SerializeField] private GameObject targetPrefab;
-
+        [SerializeField] private AssetReference targetPrefab;
         public GameSceneUI GameSceneUI => gameSceneUI;
         public PlayerController Player => player;
+        public AdressableInstantiate AdressableInstantiate => adressableInstantiate ??(adressableInstantiate=GetComponent<AdressableInstantiate>()); 
 
         private void Start()
         {
             GameSceneUI.Init(player.transform, player.MiniMapCamera);
-            var rndTargets = Random.Range(0,maxTargets+1);
+            var rndTargets = Random.Range(1, maxTargets + 1);
             for (int i = 0; i < rndTargets; i++)
             {
-                var target = Instantiate(targetPrefab);
-                target.GetComponent<MarkedObject>().Init();
+                AdressableInstantiate.AdressableInst(targetPrefab, transform, InitAfterInstantiate);
             }
+        }
+
+        public void InitAfterInstantiate(AsyncOperationHandle<GameObject> obj)
+        {
+            var target = obj.Result;
+            target.GetComponent<MarkedObject>().Init();
         }
 
         public void ChangeObjectPosition(Transform targetTransform)
@@ -47,6 +55,5 @@ namespace Scripts.UI
 
             targetTransform.position = randomPosition;
         }
-
     }
 }

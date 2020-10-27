@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using Scripts.UI;
+using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace Scripts.MapSystem
 {
-    public class MarkedObject : MonoBehaviour, ISpawned
+    public class MarkedObject : MonoBehaviour, ISpawned, ISpawner
     {
         private enum States { OnInit, Show, Hide }
         [SerializeField] private MarkedObjectMMapData mmapData;
@@ -26,16 +27,21 @@ namespace Scripts.MapSystem
             TargetData.playerTransform = gsm.Player.transform;
             TargetData.mCamera = Camera.main;
 
-            var targetUiGO = Instantiate(targetData.uiPrefab, gsm.GameSceneUI.transform);
-            TargetUi = targetUiGO.GetComponent<TargetUI>();
-            TargetUi.Init();
-            TargetUi.Owner = transform;
-
+            gsm.AdressableInstantiate.AdressableInst(targetData.assetRef, gsm.GameSceneUI.transform, InitAfterInstantiate);
 
             TargetData.min = new Vector2(TargetUi.TargetUiImg.GetPixelAdjustedRect().width / 2, TargetUi.TargetUiImg.GetPixelAdjustedRect().height / 2);
             TargetData.max = new Vector2(Screen.width - TargetData.min.x, Screen.height - TargetData.min.y);
 
             gsm.ChangeObjectPosition(transform);
+
+        }
+
+        public void InitAfterInstantiate(AsyncOperationHandle<GameObject> obj)
+        {
+            var targetUiGO = obj.Result;
+            TargetUi = targetUiGO.GetComponent<TargetUI>();
+            TargetUi.Init();
+            TargetUi.Owner = transform;
             state = States.Show;
         }
 
@@ -48,7 +54,6 @@ namespace Scripts.MapSystem
         private void LateUpdate()
         {
             var distance = Vector3.Distance(transform.position, TargetData.playerTransform.position);
-
             state = distance <= TargetData.showDistance ? States.Hide : States.Show;
 
             switch (state)
@@ -79,6 +84,5 @@ namespace Scripts.MapSystem
             TargetUi.TargetUiImg.enabled = show;
             TargetUi.DistanceMeterTMP.enabled = show;
         }
-
     }
 }

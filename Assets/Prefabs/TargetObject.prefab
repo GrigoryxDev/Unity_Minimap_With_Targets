@@ -111,13 +111,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mmapData:
-    uiPrefab: {fileID: 1825340958438171254, guid: 021125e5e878548b693980caa0ebf850, type: 3}
+    assetRef:
+      m_AssetGUID: 021125e5e878548b693980caa0ebf850
+      m_SubObjectName: 
     iconSprite: {fileID: 21300000, guid: efabefb4e741c4c6992ed62d94e94d5d, type: 3}
     iconColor: {r: 0, g: 1, b: 0.050397635, a: 1}
     showDistance: 1
   targetData:
     showDistance: 10
-    uiPrefab: {fileID: 7692460387400798524, guid: d058e874c2c6142eab9423c95cedc5d9, type: 3}
+    assetRef:
+      m_AssetGUID: d058e874c2c6142eab9423c95cedc5d9
+      m_SubObjectName: 
     min: {x: 0, y: 0}
     max: {x: 0, y: 0}
     playerTransform: {fileID: 0}

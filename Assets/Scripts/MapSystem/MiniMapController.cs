@@ -15,7 +15,7 @@ namespace Scripts.MapSystem
         private RectTransform Rect => rectTransform ?? (rectTransform = GetComponent<RectTransform>());
         private static List<MiniMapIcon> miniMapIcons = new List<MiniMapIcon>();
         private bool isInit;
-        
+
         public void Init(Transform playerTransform, Camera minimapCamera)
         {
             mapCamera = minimapCamera;
@@ -33,7 +33,8 @@ namespace Scripts.MapSystem
 
         public void AddObject(MarkedObject miniMapObject)
         {
-            var minimapGObject = Instantiate(miniMapObject.MMapData.uiPrefab, transform);
+            
+            var minimapGObject = miniMapObject.MMapData.assetRef.InstantiateAsync(transform).Result;
             var miniMapIcon = minimapGObject.GetComponent<MiniMapIcon>();
             miniMapIcon.Owner = miniMapObject;
             miniMapIcon.SetIcon(miniMapObject.MMapData.iconSprite, miniMapObject.MMapData.iconColor);
