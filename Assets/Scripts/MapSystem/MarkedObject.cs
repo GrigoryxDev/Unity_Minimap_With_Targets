@@ -30,7 +30,7 @@ namespace Scripts.MapSystem
 
             gsm.ChangeObjectPosition(transform);
 
-            gsm.AdressableInstantiate.AdressableInst(targetData.assetRef, gsm.GameSceneUI.transform, InitAfterInstantiate);
+            gsm.AdressableInstantiate.AdressableInst(targetData.assetRef, gsm.GameSceneUI.TargetsGroup, InitAfterInstantiate);
 
             gsm.GameSceneUI.MapController.AddObject(this);
 

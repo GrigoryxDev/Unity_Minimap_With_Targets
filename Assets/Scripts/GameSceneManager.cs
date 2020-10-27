@@ -10,7 +10,7 @@ namespace Scripts.UI
 {
     public class GameSceneManager : Singleton<GameSceneManager>, ISpawner
     {
-        #pragma warning disable 0649 
+#pragma warning disable 0649
         [SerializeField] AdressableInstantiate adressableInstantiate;
         [SerializeField] private PlayerController player;
         [SerializeField] private GameSceneUI gameSceneUI;
@@ -19,14 +19,20 @@ namespace Scripts.UI
         [SerializeField, Range(10, 100)] private float randomCircleMaxRadius;
         [SerializeField, Space] private int maxTargets;
         [SerializeField] private AssetReference targetPrefab;
-        #pragma warning restore 0649 
+#pragma warning restore 0649
         public GameSceneUI GameSceneUI => gameSceneUI;
         public PlayerController Player => player;
-        public AdressableInstantiate AdressableInstantiate => adressableInstantiate ??(adressableInstantiate=GetComponent<AdressableInstantiate>()); 
+        public AdressableInstantiate AdressableInstantiate => adressableInstantiate ?? (adressableInstantiate = GetComponent<AdressableInstantiate>());
 
         private void Start()
         {
-            GameSceneUI.Init(player.transform, player.MiniMapCamera);
+             Spawn();
+            GameSceneUI.Init(player.transform, player.MiniMapCamera,Spawn);
+           
+        }
+
+        public void Spawn()
+        {
             var rndTargets = Random.Range(1, maxTargets + 1);
             for (int i = 0; i < rndTargets; i++)
             {
@@ -43,7 +49,7 @@ namespace Scripts.UI
         public void ChangeObjectPosition(Transform targetTransform)
         {
             Vector3 randomPosition = MathUtilities.RandomPointInAnnulus(player.transform.position, randomCircleMinRadius, randomCircleMaxRadius);
-           
+
             var minterrainX = terrain.terrainData.bounds.min.x + 50;
             var maxterrainX = terrain.terrainData.bounds.max.x - 50;
 
@@ -53,7 +59,7 @@ namespace Scripts.UI
             randomPosition.x = Mathf.Clamp(randomPosition.x, minterrainX, maxterrainX);
             randomPosition.y = 0.5f;
             randomPosition.z = Mathf.Clamp(randomPosition.z, minterrainZ, maxterrainZ);
-           
+
 
             targetTransform.position = randomPosition;
         }
