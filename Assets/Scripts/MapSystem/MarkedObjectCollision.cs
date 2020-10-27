@@ -1,5 +1,4 @@
 ﻿using Characters.Player;
-using Scripts.UI;
 using UnityEngine;
 
 namespace Scripts.MapSystem
@@ -7,12 +6,12 @@ namespace Scripts.MapSystem
     public class MarkedObjectCollision : MonoBehaviour
     {
         private MarkedObject markedObject;
-        private MarkedObject MarkedObject=>markedObject??(markedObject=GetComponent<MarkedObject>());
+        private MarkedObject MarkedObject => markedObject ?? (markedObject = GetComponent<MarkedObject>());
         private void OnTriggerEnter(Collider other)
         {
             if (other.gameObject.GetComponent<PlayerController>())
             {
-               MarkedObject.TargetUi.ShowActiveTex(true);
+                MarkedObject.TargetUi.ShowActiveTex(true);
             }
         }
 
@@ -20,7 +19,7 @@ namespace Scripts.MapSystem
         {
             if (other.gameObject.GetComponent<PlayerController>())
             {
-                 MarkedObject.TargetUi.ShowActiveTex(false);
+                MarkedObject.TargetUi.ShowActiveTex(false);
             }
         }
     }

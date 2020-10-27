@@ -10,29 +10,29 @@ namespace Scripts.MapSystem
     public class MarkedObject : MonoBehaviour, ISpawned, ISpawner
     {
         private enum States { OnInit, Show, Hide }
+#pragma warning disable 0649
         [SerializeField] private MarkedObjectMMapData mmapData;
         [SerializeField] private MarkedObjectTargetData targetData;
+#pragma warning restore 0649
         private States state;
         public TargetUI TargetUi { get; private set; }
         public MarkedObjectMMapData MMapData => mmapData;
-        public MarkedObjectTargetData TargetData => targetData;
 
+        public MarkedObjectTargetData TargetData => targetData;
+        private float distance;
         public void Init()
         {
             state = States.OnInit;
-
             var gsm = GameSceneManager.Instance;
-            gsm.GameSceneUI.MapController.AddObject(this);
 
             TargetData.playerTransform = gsm.Player.transform;
             TargetData.mCamera = Camera.main;
 
+            gsm.ChangeObjectPosition(transform);
+
             gsm.AdressableInstantiate.AdressableInst(targetData.assetRef, gsm.GameSceneUI.transform, InitAfterInstantiate);
 
-            TargetData.min = new Vector2(TargetUi.TargetUiImg.GetPixelAdjustedRect().width / 2, TargetUi.TargetUiImg.GetPixelAdjustedRect().height / 2);
-            TargetData.max = new Vector2(Screen.width - TargetData.min.x, Screen.height - TargetData.min.y);
-
-            gsm.ChangeObjectPosition(transform);
+            gsm.GameSceneUI.MapController.AddObject(this);
 
         }
 
@@ -42,19 +42,28 @@ namespace Scripts.MapSystem
             TargetUi = targetUiGO.GetComponent<TargetUI>();
             TargetUi.Init();
             TargetUi.Owner = transform;
+            TargetData.min = new Vector2(TargetUi.TargetUiImg.GetPixelAdjustedRect().width / 2, TargetUi.TargetUiImg.GetPixelAdjustedRect().height / 2);
+            TargetData.max = new Vector2(Screen.width - TargetData.min.x, Screen.height - TargetData.min.y);
+
             state = States.Show;
         }
 
         public void OnObjDestroy()
         {
+            GameSceneManager.Instance.GameSceneUI.MapController.RemoveObject(mmapData.uiMMapIconIndex);
             TargetUi.OnObjDestroy();
             Destroy(gameObject);
         }
 
         private void LateUpdate()
         {
-            var distance = Vector3.Distance(transform.position, TargetData.playerTransform.position);
-            state = distance <= TargetData.showDistance ? States.Hide : States.Show;
+
+            if (state != States.OnInit)
+            {
+                distance = Vector3.Distance(transform.position, TargetData.playerTransform.position);
+                state = distance <= TargetData.showDistance ? States.Hide : States.Show;
+
+            }
 
             switch (state)
             {

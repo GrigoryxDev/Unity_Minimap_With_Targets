@@ -5,10 +5,12 @@ namespace Characters.Player
     [RequireComponent(typeof(CharacterController))]
     public class PlayerMoveSystem : MonoBehaviour
     {
+#pragma warning disable 0649
         [SerializeField] private float turnSmoothTime = .1f;
         [SerializeField] private Transform cam;
         [SerializeField, Range(0f, 25f)] private float moveSpeed;
         [SerializeField] private float gravityValue = -9.81f;
+#pragma warning restore 0649
         private float turnSmoothVelocity;
 
         private CharacterController characterController;

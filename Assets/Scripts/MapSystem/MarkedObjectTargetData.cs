@@ -16,7 +16,5 @@ namespace Scripts.MapSystem
         [HideInInspector] public Transform playerTransform;
         [HideInInspector] public Camera mCamera;
 
-
-
     }
 }

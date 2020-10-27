@@ -13,7 +13,7 @@ public class AdressableInstantiate : MonoBehaviour
 
     private IEnumerator InstGObject(AssetReference assetRef, Transform parent, Action<AsyncOperationHandle<GameObject>> action)
     {
-        yield return assetRef.LoadAssetAsync<GameObject>();
+        assetRef.LoadAssetAsync<GameObject>();
         var actionHandler = assetRef.InstantiateAsync(parent);
         actionHandler.Completed += action;
         yield return actionHandler;
