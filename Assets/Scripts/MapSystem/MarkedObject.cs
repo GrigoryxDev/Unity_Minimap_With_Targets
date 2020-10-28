@@ -57,13 +57,13 @@ namespace Scripts.MapSystem
 
         private void LateUpdate()
         {
-
-            if (state != States.OnInit)
+            if (state == States.OnInit)
             {
-                distance = Vector3.Distance(transform.position, TargetData.playerTransform.position);
-                state = distance <= TargetData.showDistance ? States.Hide : States.Show;
-
+                return;
             }
+
+            distance = Vector3.Distance(transform.position, TargetData.playerTransform.position);
+            state = distance <= TargetData.showDistance ? States.Hide : States.Show;
 
             switch (state)
             {

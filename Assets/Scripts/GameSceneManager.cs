@@ -11,7 +11,7 @@ namespace Scripts.UI
     public class GameSceneManager : Singleton<GameSceneManager>, ISpawner
     {
 #pragma warning disable 0649
-        [SerializeField] AdressableInstantiate adressableInstantiate;
+        [SerializeField] private AdressableInstantiate adressableInstantiate;
         [SerializeField] private PlayerController player;
         [SerializeField] private GameSceneUI gameSceneUI;
         [SerializeField] private Terrain terrain;
@@ -26,10 +26,10 @@ namespace Scripts.UI
 
         private void Start()
         {
-            GameSceneUI.Init(player.transform, player.MiniMapCamera,Spawn);
+            GameSceneUI.Init(player.transform, player.MiniMapCamera, Spawn);
 
             Spawn();
-           
+
         }
 
         public void Spawn()

@@ -53,6 +53,4 @@ public static class MathUtilities
 
         return new Rect(x, y, size.x, size.y);
     }
-
-
 }
